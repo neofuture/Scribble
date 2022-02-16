@@ -1,0 +1,71 @@
+<div class="container">
+  <table>
+    <tr>
+      <td width="100px" style="white-space: nowrap;">
+        <label>
+          <input *ngIf="hasColorInputSupport" type="color" [(ngModel)]="colour" [style]="{'width':'48px', 'height': '40px'}" [pTooltip]="'Line Colour'" [tooltipZIndex]="99999999" tooltipPosition="bottom">
+        </label>
+        <p-colorPicker *ngIf="!hasColorInputSupport" [(ngModel)]="colour" [style]="{'width':'40px'}" [pTooltip]="'Line Colour'" [tooltipZIndex]="99999999" tooltipPosition="bottom"></p-colorPicker>
+
+        <label>
+          <input *ngIf="hasColorInputSupport" type="color" [(ngModel)]="colourFill" [style]="{'width':'48px', 'height': '40px'}" [pTooltip]="'Fill Colour'" [tooltipZIndex]="99999999" tooltipPosition="bottom">
+        </label>
+        <p-colorPicker *ngIf="!hasColorInputSupport" [(ngModel)]="colourFill" [style]="{'width':'40px'}" [pTooltip]="'Fill Colour'" [tooltipZIndex]="99999999" tooltipPosition="bottom"></p-colorPicker>
+      </td>
+      <td style="width:180px;text-align:center;">
+        Line ({{ lineWidth/2 }}px)
+        <p-slider [(ngModel)]="lineWidth" [min]="1" [max]="200" [style]="{'width':'100%'}"></p-slider>
+      </td>
+      <td>
+        <p-checkbox *ngIf="mode == 'square' || mode == 'circle'" [(ngModel)]="outline" binary="true" label="Outline"></p-checkbox>
+      </td>
+      <td>
+        <p-checkbox *ngIf="mode == 'square' || mode == 'circle'" [(ngModel)]="fill" binary="true" label="Fill"></p-checkbox>
+      </td>
+
+      <td class="noWrap" style="text-align: right;">
+        <i [ngClass]="{'active': mode=='move'}" (click)="setMode('move')" class="cs-L-ArrowUpDown" [pTooltip]="'Pan Canvas'" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+        <i [ngClass]="{'active': mode=='pen'}" (click)="setMode('pen')" class="cs-L-Pencil" [pTooltip]="'Pen Tool'" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+        <i [ngClass]="{'active': mode=='line'}" (click)="setMode('line')" class="cs-L-Link" [pTooltip]="'Line Tool\n\nHold shift for horizonal or vertical lock'" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+        <i [ngClass]="{'active': mode=='square'}" (click)="setMode('square')" class="cs-L-Square" [pTooltip]="'Square Tool\n\nHold shift to lock the shape aspect'" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+        <i [ngClass]="{'active': mode=='circle'}" (click)="setMode('circle')" class="cs-L-RadioButtonOff" [pTooltip]="'Circle Tool\n\nHold shift to lock the shape aspect'" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+      </td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td width="100px">
+        <p-dropdown [(ngModel)]="gridSize" [options]="gridSizes"  (ngModelChange)="reDraw()" [style]="{width: '92px', minWidth: '92px'}"></p-dropdown>
+      </td>
+      <td style="width:180px;text-align:center;">
+        Zoom Level: {{ scale * 100 | number : '1.0-0'}}%
+        <p-slider [(ngModel)]="zoomLevel" [min]="0.1" [max]="7" [style]="{'width':'100%'}" (ngModelChange)="zoomIn()"
+                  [step]="0.01"></p-slider>
+      </td>
+      <td>
+        <p-checkbox *ngIf="mode == 'line' || mode == 'square' || mode == 'circle'" [(ngModel)]="snap" binary="true" label="Snap"></p-checkbox>
+      </td>
+      <td  [style]="{width: '160px'}">
+        <input
+          style="display: none"
+          type="file" (change)="uploadDrawing($event)"
+          #fileInput>
+        <i (click)="fileInput.click()" [pTooltip]="'Load Drawing'" class="cs-L-CloudUpload" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+        <i (click)="save()" [pTooltip]="'Save Drawing'" class="cs-L-Save" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+        <i (click)="undo()" [pTooltip]="'Undo Action'" class="cs-L-Undo" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+        <i (click)="zoom()" [pTooltip]="'Reset Zoom'" class="cs-L-ZoomAll" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+        <i (click)="autoCentre()"  [pTooltip]="'Auto Center'" class="cs-L-WindowCenter" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+        <i (click)="clear()" [pTooltip]="'Clear Drawing'" class="cs-L-Trash" [tooltipZIndex]="99999999" tooltipPosition="bottom"></i>
+      </td>
+    </tr>
+  </table>
+
+
+  <div class="canvasContainer" style="height:calc(100% - 100px);width:100%">
+    <canvas #canvasGrid class="{{ mode }}"></canvas>
+    <canvas #canvas class="{{ mode }}"></canvas>
+    <canvas #canvasTools class="{{ mode }}"></canvas>
+  </div>
+
+
+</div>

@@ -1,0 +1,82 @@
+.container {
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+}
+
+.canvasContainer {
+  position:relative;
+}
+
+canvas {
+  box-sizing: border-box;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:transparent;
+}
+
+canvas.pen, canvas.line {
+  cursor:none;
+}
+
+canvas.move {
+  cursor:move;
+}
+
+.tools {
+  padding:8px;
+}
+
+table {
+  background-color:var(--light-grey);
+  width:100%;
+  height:50px;
+  color:var(--black);
+}
+
+table td {
+  padding:8px;
+}
+/*table td:last-child{*/
+/*  text-align:center;*/
+/*}*/
+
+/*table td:nth-child(2){*/
+/*  text-align:center;*/
+/*}*/
+/*table td:nth-child(1){*/
+/*  text-align:center;*/
+/*  padding-left:10px;*/
+/*}*/
+
+.noWrap {
+  white-space: nowrap;
+}
+
+i {
+  padding: 8px;
+  font-size: 24px;
+  margin:2px;
+  width:30px;
+}
+
+i:hover {
+  background-color:var(--mid-grey);
+}
+.active {
+  background-color:var(--light-primary);
+}
+
+/*table, td {*/
+/*  border-collapse: collapse;*/
+/*  border:1px solid red;*/
+/*}*/
